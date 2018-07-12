@@ -36,7 +36,7 @@ void trim_tokens(std::vector<std::pair<char*, size_t>>& tokens) {
         if (token.second == 0u) {
             continue;
         }
-        auto ptr = token.first;
+        auto& ptr = token.first;
         size_t size = 0u;
         while (*ptr == ' ') {
             ++ptr;
