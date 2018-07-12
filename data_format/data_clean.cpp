@@ -279,26 +279,15 @@ int main(int argc, char* argv[]) {
                 uint64_t sign = MurmurHash64A(tokens[i].first, tokens[i].second, seed);
                 std::cout << sign;
             } else if (oflags[i] == Oflag::MULTI_CAT) {
-                if (tokens[i].second == 0) {
-                    std::cout << "NaN";
-                } else {
-                    auto subtokens = split(tokens[i].first, delims[i][0]);
-                    for (size_t j = 0u; j < subtokens.size(); ++j) {
-                        uint64_t sign = MurmurHash64A(subtokens[j].first, subtokens[j].second, seed);
-                        std::cout << sign;
-                        if (j + 1 != subtokens.size()) {
-                            std::cout << ',';
-                        }
+                auto subtokens = split(tokens[i].first, delims[i][0]);
+                for (size_t j = 0u; j < subtokens.size(); ++j) {
+                    uint64_t sign = MurmurHash64A(subtokens[j].first, subtokens[j].second, seed);
+                    std::cout << sign;
+                    if (j + 1 != subtokens.size()) {
+                        std::cout << ',';
                     }
                 }
             } else if (oflags[i] == Oflag::MULTI_CAT_NUM) {
-                if (tokens[i].second == 0) {
-                    std::cout << "NaN";
-                    if (i+1 != tokens.size()) {
-                        std::cout << odelim;
-                    }
-                    continue;
-                }
                 auto subtokens = split(tokens[i].first, delims[i][0]);
                 double max = std::numeric_limits<double>::lowest();
                 double min = std::numeric_limits<double>::max();
@@ -337,12 +326,8 @@ int main(int argc, char* argv[]) {
                     std::cout << odelim << max_sign << odelim << min_sign;
                 }
             } else if (oflags[i] == Oflag::TIME) {
-                if (tokens[i].second == 0) {
-                    std::cout << "NaN";
-                } else {
-                    auto t = calc_time(tokens[i].first, time_formats[i].c_str());
-                    std::cout << t;
-                }
+                auto t = calc_time(tokens[i].first, time_formats[i].c_str());
+                std::cout << t;
             }
 
             if (i+1 != tokens.size()) {

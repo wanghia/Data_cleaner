@@ -259,13 +259,19 @@ int main(int argc, char* argv[]) {
                 std::cerr << tokens[i].first << std::endl;
                 continue;
             }
-            if (strcmp(tokens[i].first, "null") == 0) {
+            if (strcmp(tokens[i].first, "null") == 0 || tokens[i].second==0) {
                 std::cout << "NaN";
+                if (oflags[i] == Oflag::MULTI_CAT_NUM) {
+                    if (catnum_flags[i] == CatnumFlag::MAX || catnum_flags[i] == CatnumFlag::MIN) {
+                        std::cout <<  odelim << "NaN";
+                    } else if (catnum_flags[i] == CatnumFlag::MAXMIN) {
+                        std::cout << odelim << "NaN" << odelim << "NaN";
+                    }
+                }
                 if (i + 1 != tokens.size()) {
                     std::cout << odelim;
                 }
                 continue;
-            
             }
             if (oflags[i] == Oflag::NUM) { 
                 std::cout << tokens[i].first;
